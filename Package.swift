@@ -366,7 +366,7 @@ let package = Package(
             targets: ["RealmCoreLegacy"]),
         .library(
             name: "RealmQueryParserLegacy",
-            targets: ["RealmQueryParser"]),
+            targets: ["RealmQueryParserLegacy"]),
         .library(
             name: "RealmCapiLegacy",
             targets: ["CapiLegacy"]),
