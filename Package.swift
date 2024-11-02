@@ -369,10 +369,10 @@ let package = Package(
             targets: ["RealmQueryParser"]),
         .library(
             name: "RealmCapiLegacy",
-            targets: ["Capi"]),
+            targets: ["CapiLegacy"]),
         .library(
             name: "RealmFFILegacy",
-            targets: ["RealmFFI"]),
+            targets: ["RealmFFILegacy"]),
     ],
     targets: [
         .target(
@@ -430,7 +430,7 @@ let package = Package(
                 .linkedFramework("Security", .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .macCatalyst])),
             ]),
         .target(
-            name: "RealmQueryParser",
+            name: "RealmQueryParserLegacy",
             dependencies: ["RealmCoreLegacy"],
             path: "src/realm/parser",
             exclude: [
@@ -442,30 +442,30 @@ let package = Package(
             cxxSettings: [
                 .headerSearchPath("realm/parser/generated")
             ] + cxxSettings),
+//        .target(
+//            name: "SyncServer",
+//            dependencies: ["RealmCoreLegacy"],
+//            path: "src",
+//            exclude: ([
+//                "CMakeLists.txt",
+//                "external",
+//                "realm/CMakeLists.txt",
+//                "realm/exec",
+//                "realm/object-store",
+//                "realm/parser",
+//                "realm/sync/CMakeLists.txt",
+//                "realm/sync/noinst/server/CMakeLists.txt",
+//                "realm/tools",
+//                "realm/util/config.h.in",
+//                "realm/version_numbers.hpp.in",
+//                "swift",
+//                "win32",
+//            ] + notSyncServerSources) as [String],
+//            sources: ["realm/sync"],
+//            publicHeadersPath: "realm/sync/impl", // hack
+//            cxxSettings: cxxSettings),
         .target(
-            name: "SyncServer",
-            dependencies: ["RealmCoreLegacy"],
-            path: "src",
-            exclude: ([
-                "CMakeLists.txt",
-                "external",
-                "realm/CMakeLists.txt",
-                "realm/exec",
-                "realm/object-store",
-                "realm/parser",
-                "realm/sync/CMakeLists.txt",
-                "realm/sync/noinst/server/CMakeLists.txt",
-                "realm/tools",
-                "realm/util/config.h.in",
-                "realm/version_numbers.hpp.in",
-                "swift",
-                "win32",
-            ] + notSyncServerSources) as [String],
-            sources: ["realm/sync"],
-            publicHeadersPath: "realm/sync/impl", // hack
-            cxxSettings: cxxSettings),
-        .target(
-            name: "Capi",
+            name: "CapiLegacy",
             dependencies: ["RealmCoreLegacy", "RealmQueryParser"],
             path: "src/realm/object-store/c_api",
             exclude: [
@@ -475,77 +475,77 @@ let package = Package(
             publicHeadersPath: ".",
             cxxSettings: (cxxSettings) as [CXXSetting]),
         .target(
-            name: "RealmFFI",
-            dependencies: ["Capi"],
+            name: "RealmFFILegacy",
+            dependencies: ["CapiLegacy"],
             path: "src/swift"),
-        .target(
-            name: "Catch2Generated",
-            path: "external/generated",
-            // this file was manually generated with catch v3.0.1
-            // and should be regenerated when catch is upgraded
-            resources: [.copy("catch2/catch_user_config.hpp")],
-            publicHeadersPath: "."),
-        .target(
-            name: "Catch2",
-            dependencies: ["Catch2Generated"],
-            path: "external/catch/src",
-            exclude: [
-                "CMakeLists.txt",
-                "catch2/catch_user_config.hpp.in",
-                "catch2/internal/catch_main.cpp"
-                ],
-            publicHeadersPath: ".",
-            cxxSettings: ([
-                .headerSearchPath("catch2"),
-                .define("CATCH_CONFIG_NO_CPP17_UNCAUGHT_EXCEPTIONS")
-            ] + cxxSettings) as [CXXSetting]),
-        .target(
-            name: "CoreTestUtils",
-            dependencies: ["RealmCoreLegacy"],
-            path: "test/util",
-            exclude: [
-                "CMakeLists.txt"
-            ],
-            publicHeadersPath: ".",
-            cxxSettings: (cxxSettings) as [CXXSetting]),
-        .target(
-            name: "ObjectStoreTestUtils",
-            dependencies: ["RealmCoreLegacy", "SyncServer", "Catch2", "CoreTestUtils"],
-            path: "test/object-store/util",
-            publicHeadersPath: ".",
-            cxxSettings: ([
-                .headerSearchPath(".."),
-                .define("_LIBCPP_DISABLE_AVAILABILITY")
-            ] + cxxSettings) as [CXXSetting]),
-        .executableTarget(
-            name: "ObjectStoreTests",
-            dependencies: ["RealmQueryParser", "ObjectStoreTestUtils"],
-            path: "test/object-store",
-            exclude: [
-                "CMakeLists.txt",
-                "backup.cpp",
-                "benchmarks",
-                "c_api",
-                "geospatial.cpp",
-                "notifications-fuzzer",
-                "query.json",
-                "sync-metadata-v4.realm",
-                "sync-metadata-v5.realm",
-                "test_backup-olden-and-golden.realm",
-                "util",
-            ],
-            cxxSettings: ([
-                .headerSearchPath("."),
-                .headerSearchPath(".."),
-                .define("_LIBCPP_DISABLE_AVAILABILITY")
-            ] + cxxSettings) as [CXXSetting]),
-        .executableTarget(
-            name: "CapiTests",
-            dependencies: ["Capi", "ObjectStoreTestUtils"],
-            path: "test/object-store/c_api",
-            cxxSettings: ([
-                .headerSearchPath("../"),
-            ] + cxxSettings) as [CXXSetting]),
+//        .target(
+//            name: "Catch2Generated",
+//            path: "external/generated",
+//            // this file was manually generated with catch v3.0.1
+//            // and should be regenerated when catch is upgraded
+//            resources: [.copy("catch2/catch_user_config.hpp")],
+//            publicHeadersPath: "."),
+//        .target(
+//            name: "Catch2Legacy",
+//            dependencies: ["Catch2Generated"],
+//            path: "external/catch/src",
+//            exclude: [
+//                "CMakeLists.txt",
+//                "catch2/catch_user_config.hpp.in",
+//                "catch2/internal/catch_main.cpp"
+//                ],
+//            publicHeadersPath: ".",
+//            cxxSettings: ([
+//                .headerSearchPath("catch2"),
+//                .define("CATCH_CONFIG_NO_CPP17_UNCAUGHT_EXCEPTIONS")
+//            ] + cxxSettings) as [CXXSetting]),
+//        .target(
+//            name: "CoreTestUtils",
+//            dependencies: ["RealmCoreLegacy"],
+//            path: "test/util",
+//            exclude: [
+//                "CMakeLists.txt"
+//            ],
+//            publicHeadersPath: ".",
+//            cxxSettings: (cxxSettings) as [CXXSetting]),
+//        .target(
+//            name: "ObjectStoreTestUtils",
+//            dependencies: ["RealmCoreLegacy", "SyncServer", "Catch2", "CoreTestUtils"],
+//            path: "test/object-store/util",
+//            publicHeadersPath: ".",
+//            cxxSettings: ([
+//                .headerSearchPath(".."),
+//                .define("_LIBCPP_DISABLE_AVAILABILITY")
+//            ] + cxxSettings) as [CXXSetting]),
+//        .executableTarget(
+//            name: "ObjectStoreTests",
+//            dependencies: ["RealmQueryParser", "ObjectStoreTestUtils"],
+//            path: "test/object-store",
+//            exclude: [
+//                "CMakeLists.txt",
+//                "backup.cpp",
+//                "benchmarks",
+//                "c_api",
+//                "geospatial.cpp",
+//                "notifications-fuzzer",
+//                "query.json",
+//                "sync-metadata-v4.realm",
+//                "sync-metadata-v5.realm",
+//                "test_backup-olden-and-golden.realm",
+//                "util",
+//            ],
+//            cxxSettings: ([
+//                .headerSearchPath("."),
+//                .headerSearchPath(".."),
+//                .define("_LIBCPP_DISABLE_AVAILABILITY")
+//            ] + cxxSettings) as [CXXSetting]),
+//        .executableTarget(
+//            name: "CapiTests",
+//            dependencies: ["Capi", "ObjectStoreTestUtils"],
+//            path: "test/object-store/c_api",
+//            cxxSettings: ([
+//                .headerSearchPath("../"),
+//            ] + cxxSettings) as [CXXSetting]),
     ],
     cxxLanguageStandard: .cxx17
 )
