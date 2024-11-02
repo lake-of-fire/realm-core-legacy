@@ -365,24 +365,24 @@ let package = Package(
             name: "RealmCoreLegacy",
             targets: ["RealmCoreLegacy"]),
         .library(
-            name: "RealmQueryParser",
+            name: "RealmQueryParserLegacy",
             targets: ["RealmQueryParser"]),
         .library(
-            name: "RealmCapi",
+            name: "RealmCapiLegacy",
             targets: ["Capi"]),
         .library(
-            name: "RealmFFI",
+            name: "RealmFFILegacy",
             targets: ["RealmFFI"]),
     ],
     targets: [
         .target(
-            name: "Bid",
+            name: "BidLegacy",
             path: "src/external/IntelRDFPMathLib20U2/LIBRARY/src",
             exclude: bidExcludes,
             publicHeadersPath: "."
         ),
         .target(
-            name: "s2geometry",
+            name: "s2geometryLegacy",
             path: "src/external/s2",
             exclude: [
                 "s2cellunion.cc",
@@ -397,7 +397,7 @@ let package = Package(
             ] + cxxSettings) as [CXXSetting]),
         .target(
             name: "RealmCoreLegacy",
-            dependencies: ["Bid", "s2geometry"],
+            dependencies: ["BidLegacy", "s2geometryLegacy"],
             path: "src",
             exclude: ([
                 "CMakeLists.txt",
