@@ -1,1 +1,1 @@
-@_exported import RealmFFI
+@_exported import RealmFFILegacy

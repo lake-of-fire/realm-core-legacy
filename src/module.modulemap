@@ -1,4 +1,4 @@
-module RealmFFI {
+module RealmFFILegacy {
     header "realm.h"
 
     export *
