@@ -466,7 +466,7 @@ let package = Package(
 //            cxxSettings: cxxSettings),
         .target(
             name: "CapiLegacy",
-            dependencies: ["RealmCoreLegacy", "RealmQueryParser"],
+            dependencies: ["RealmCoreLegacy", "RealmQueryParserLegacy"],
             path: "src/realm/object-store/c_api",
             exclude: [
                 "CMakeLists.txt",
