@@ -358,12 +358,12 @@ let platforms: [SupportedPlatform] = [
 ]
 
 let package = Package(
-    name: "RealmDatabase",
+    name: "RealmDatabaseLegacy",
     platforms: platforms,
     products: [
         .library(
-            name: "RealmCore",
-            targets: ["RealmCore"]),
+            name: "RealmCoreLegacy",
+            targets: ["RealmCoreLegacy"]),
         .library(
             name: "RealmQueryParser",
             targets: ["RealmQueryParser"]),
@@ -396,7 +396,7 @@ let package = Package(
                 .headerSearchPath("../.."),
             ] + cxxSettings) as [CXXSetting]),
         .target(
-            name: "RealmCore",
+            name: "RealmCoreLegacy",
             dependencies: ["Bid", "s2geometry"],
             path: "src",
             exclude: ([
@@ -431,7 +431,7 @@ let package = Package(
             ]),
         .target(
             name: "RealmQueryParser",
-            dependencies: ["RealmCore"],
+            dependencies: ["RealmCoreLegacy"],
             path: "src/realm/parser",
             exclude: [
                 "CMakeLists.txt",
@@ -444,7 +444,7 @@ let package = Package(
             ] + cxxSettings),
         .target(
             name: "SyncServer",
-            dependencies: ["RealmCore"],
+            dependencies: ["RealmCoreLegacy"],
             path: "src",
             exclude: ([
                 "CMakeLists.txt",
@@ -466,7 +466,7 @@ let package = Package(
             cxxSettings: cxxSettings),
         .target(
             name: "Capi",
-            dependencies: ["RealmCore", "RealmQueryParser"],
+            dependencies: ["RealmCoreLegacy", "RealmQueryParser"],
             path: "src/realm/object-store/c_api",
             exclude: [
                 "CMakeLists.txt",
@@ -501,7 +501,7 @@ let package = Package(
             ] + cxxSettings) as [CXXSetting]),
         .target(
             name: "CoreTestUtils",
-            dependencies: ["RealmCore"],
+            dependencies: ["RealmCoreLegacy"],
             path: "test/util",
             exclude: [
                 "CMakeLists.txt"
@@ -510,7 +510,7 @@ let package = Package(
             cxxSettings: (cxxSettings) as [CXXSetting]),
         .target(
             name: "ObjectStoreTestUtils",
-            dependencies: ["RealmCore", "SyncServer", "Catch2", "CoreTestUtils"],
+            dependencies: ["RealmCoreLegacy", "SyncServer", "Catch2", "CoreTestUtils"],
             path: "test/object-store/util",
             publicHeadersPath: ".",
             cxxSettings: ([
